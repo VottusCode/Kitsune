@@ -1,6 +1,7 @@
 import winston, { format, transports } from "winston";
 import { createConnection, Connection } from "typeorm";
 
+import pkg from "../package.json";
 import fs from "fs";
 import path from "path";
 import { botToken, expressPort, mongoDbUri } from "../config";
@@ -163,17 +164,7 @@ export class Kitsune {
     return env === "development";
   }
 
-  static getVersion() {
-    try {
-      return (
-        JSON.parse(
-          fs.readFileSync(path.join(__dirname, "/../package.json"), "utf-8")
-        ).version || "1"
-      );
-    } catch (error) {
-      return "1";
-    }
-  }
+  static getVersion = () => (pkg.version ? pkg.version : "1 (not exact)");
 }
 
 const bot = new Kitsune();
